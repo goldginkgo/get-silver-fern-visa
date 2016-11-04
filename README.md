@@ -14,29 +14,30 @@ It provides two functions:
 1. Install Ruby and Firefox.
 
 2. Clone the repository.
-```
-git clone https://github.com/goldginkgo/get-silver-fern-visa.git
-```
+
+  ```
+  git clone https://github.com/goldginkgo/get-silver-fern-visa.git
+  ```
 
 3. Download geckodriver from the following URL, extract the folder,
    and put geckodriver.exe in the get-silver-fern-visa folder.
-```
-https://github.com/mozilla/geckodriver/
-```
+   ```
+   https://github.com/mozilla/geckodriver/
+   ```
 
 4. Download phantomjs from the following URL, extract the folder,
    and put phantomjs.exe in the get-silver-fern-visa folder.
-```
-http://phantomjs.org/download.html
-```
+   ```
+   http://phantomjs.org/download.html
+   ```
 
 5. Install required gems.
-```
-cd get-silver-fern-visa
-bundle install
-```
+   ```
+   cd get-silver-fern-visa
+   bundle install
+   ```
 
 6. Execute the following command.
-```
-ruby get_silver_fern_visa.rb USERNAME PASSWORD APPLICATION_ID
-```
+   ```
+   ruby get_silver_fern_visa.rb USERNAME PASSWORD APPLICATION_ID
+   ```

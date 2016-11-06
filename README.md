@@ -11,7 +11,7 @@ It provides two functions:
   - Open a browser, sign in and display the payment page automatically.
 
 ## Running the application
-1. Install Ruby and Firefox.
+1. Install Ruby and Chrome.
 
 2. Clone the repository.
 
@@ -19,10 +19,10 @@ It provides two functions:
   git clone https://github.com/goldginkgo/get-silver-fern-visa.git
   ```
 
-3. Download geckodriver from the following URL, extract the folder,
-   and put geckodriver.exe in the get-silver-fern-visa folder.
+3. Download the latest chromedriver from the following URL, extract the folder,
+   and put chromedriver.exe in the get-silver-fern-visa folder.
    ```
-   https://github.com/mozilla/geckodriver/
+   http://chromedriver.storage.googleapis.com/index.html
    ```
 
 4. Download phantomjs from the following URL, extract the folder,

@@ -5,12 +5,13 @@ require_relative 'email_notification'
 class SilverFern
   include EmailNotification
 
-  def initialize(username, password, application_id, gmail, gmail_password)
+  def initialize(username, password, application_id, gmail, gmail_password, check)
     @username = username
     @password = password
     @application_id = application_id
     @gmail = gmail
     @gmail_password = gmail_password
+    @check = check
   end
 
   def get_sfv

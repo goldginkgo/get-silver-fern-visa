@@ -1,5 +1,21 @@
 require 'capybara/dsl'
 
+# Silver Fern Visa Display page
+module SilverFernDisplayPage
+  extend Capybara::DSL
+
+  def visit_silver_fern_display_page
+    visit "https://www.immigration.govt.nz/new-zealand-visas/apply-for-a-visa/visa-factsheet/silver-fern-job-search-work-visa"
+    puts current_url
+  end
+
+  def visa_status_changed?
+    ! has_content?("Applications for this visa are currently closed until further notice", wait: 5)
+  end
+
+  module_function :visit_silver_fern_display_page, :visa_status_changed?
+end
+
 # login page
 module SilverFernLoginPage
   extend Capybara::DSL

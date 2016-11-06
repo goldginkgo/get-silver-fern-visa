@@ -20,7 +20,14 @@ class SilverFern
   end
 
   def get_sfv
+    status_email_sent = false
     loop do
+      SilverFernDisplayPage.visit_silver_fern_display_page
+      if !status_email_sent  && SilverFernDisplayPage.visa_status_changed?
+        send_visa_status_changed_email
+        status_email_sent = true
+      end
+
       log_in(@username, @password)
       break if SilverFernLoginPage.logged_in?
       sleep 5

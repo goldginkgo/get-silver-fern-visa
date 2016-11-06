@@ -1,4 +1,3 @@
-require 'capybara/dsl'
 require_relative 'silver_fern_pages'
 require_relative 'email_notification'
 

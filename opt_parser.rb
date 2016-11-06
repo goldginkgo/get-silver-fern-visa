@@ -10,12 +10,16 @@ class Optparser
       opts.separator ""
       opts.separator "Specific options:"
 
-      opts.on("-u Name", "--immigration-username Name",
+      opts.on("-c", "--check", "Check if places are available for SFV.") do |v|
+        options[:check] = true
+      end
+
+      opts.on("-u Name", "--username Name",
               "Specify the username for immigration website.") do |value|
         options[:username] = value
       end
 
-      opts.on("-p Password", "--immigration-password Password",
+      opts.on("-p Password", "--password Password",
               "Specify the password for immigration website.") do |value|
         options[:password] = value
       end

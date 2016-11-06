@@ -4,21 +4,21 @@ module EmailNotification
   LOGIN_SUCCESS = "Logged into SFV website successfully.\n" +
                   "The script is running well."
 
+  GET_VISA = "Please make sure your credit card is available and " +
+             "use the command line tool to display payment page.\n\n" +
+             "You can also login the following URL to get the visa:\n" +
+             "https://onlineservices.immigration.govt.nz/secure/Login+Silver+Fern.htm\n\n" +
+             "Then submit the application with the following URL.\n" +
+             "https://onlineservices.immigration.govt.nz/SILVERFERN/Submit/Submit?applicationId=%s&hasagent=False&hassubmit=False&hasagree=true\n\n" +
+             "Your application form can be accessed with the following URL:" +
+             "https://onlineservices.immigration.govt.nz/SILVERFERN/Questionnaire/Details/PersonalDetails/%s"
+
   STATUS_CHANGE = "Silver Fern Job Search Visa status changed.\n\n" +
                   "Please visit the following URL for details:\n" +
                   "https://www.immigration.govt.nz/new-zealand-visas/apply-for-a-visa/visa-factsheet/silver-fern-job-search-work-visa\n\n" +
-                  "Login the following URL to get the visa:\n" +
-                  "https://onlineservices.immigration.govt.nz/secure/Login+Silver+Fern.htm\n\n" +
-                  "Then submit the application with the following URL.\n" +
-                  "https://onlineservices.immigration.govt.nz/SILVERFERN/Submit/Submit?applicationId=%s&hasagent=False&hassubmit=False&hasagree=true\n\n" +
-                  "Or use the command line tool to login and show the payment page."
+                  "Also please check if SFV is reopen. If it is open:\n\n" + GET_VISA
 
-  VISA_OPEN = "Silver Fern Job Search Visa probably opened.\n\n" +
-              "Login the following URL to get the visa:\n" +
-              "https://onlineservices.immigration.govt.nz/secure/Login+Silver+Fern.htm\n\n" +
-              "Then submit the application with the following URL.\n" +
-              "https://onlineservices.immigration.govt.nz/SILVERFERN/Submit/Submit?applicationId=%s&hasagent=False&hassubmit=False&hasagree=true\n\n" +
-              "Or use the command line tool to login and show the payment page."
+  VISA_OPEN = "Silver Fern Job Search Visa probably opened.\n\n" + GET_VISA
 
   SCRIPT_CRASHED = "The execution of SFV script crashed.\n\n%s"
 
@@ -40,7 +40,7 @@ module EmailNotification
            to mails
          from email_address
       subject '[Important] Silver Fern Job Search Visa status changed'
-         body STATUS_CHANGE % application_id
+         body STATUS_CHANGE % [application_id, application_id]
     end
   end
 
@@ -51,7 +51,7 @@ module EmailNotification
            to mails
          from email_address
       subject '[Important] Silver Fern Job Search Visa probably opened'
-         body VISA_OPEN % application_id
+         body VISA_OPEN % [application_id, application_id]
     end
   end
 

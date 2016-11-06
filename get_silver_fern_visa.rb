@@ -1,6 +1,6 @@
 require 'capybara/poltergeist'
-require_relative 'opt_parser'
-require_relative 'silver_fern'
+require_relative 'lib/opt_parser'
+require_relative 'lib/silver_fern'
 
 STDOUT.sync = true
 current_directory = File.dirname(File.expand_path(__FILE__))

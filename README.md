@@ -1,7 +1,7 @@
 # Get SFV More Efficiently
 
 ## Introduction
-This application is used to get a sporadic SFV quota more efficiently.
+This application is used to watch and get a sporadically released SFV(Silver Fern Job Search Visa) quota.
 
 It is useful when you have completed the Silver Fern Schema
 and payment is your only step towards SFV when places are available.

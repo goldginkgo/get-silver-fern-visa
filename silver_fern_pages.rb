@@ -6,7 +6,7 @@ module SilverFernDisplayPage
 
   def visit_silver_fern_display_page
     visit "https://www.immigration.govt.nz/new-zealand-visas/apply-for-a-visa/visa-factsheet/silver-fern-job-search-work-visa"
-    puts current_url
+    puts "#{Time.now} visit SFV display page."
   end
 
   def visa_status_changed?
@@ -22,7 +22,7 @@ module SilverFernLoginPage
 
   def visit_login_page
     visit "https://www.immigration.govt.nz/secure/Login+Silver+Fern.htm"
-    puts current_url
+    puts "#{Time.now} visit SFV login page."
   end
 
   def fill_in_username(username)
@@ -37,7 +37,6 @@ module SilverFernLoginPage
 
   def click_login_button
     click_on 'OnlineServicesLoginStealth_VisaLoginControl_loginImageButton'
-    puts current_url
   end
 
   def logged_in?
@@ -54,7 +53,7 @@ module SilverFernApplicationFormPage
 
   def visit_application_form_page(application_id)
     visit "https://onlineservices.immigration.govt.nz/SILVERFERN/Questionnaire/Details/PersonalDetails/#{application_id}"
-    puts current_url
+    puts "#{Time.now} visit SFV application form page."
   end
 
   def click_continue_button
@@ -71,7 +70,7 @@ module SilverFernSubmitPage
 
   def visit_silver_fern_submit_page(application_id)
     visit "https://onlineservices.immigration.govt.nz/SILVERFERN/Submit/Submit?applicationId=#{application_id}&hasagent=False&hassubmit=False&hasagree=true"
-    puts current_url
+    puts "#{Time.now} visit SFV Submit page."
   end
 
   def check_all_checkboxes

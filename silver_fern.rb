@@ -51,7 +51,7 @@ class SilverFern
     return if @status_email_sent
     SilverFernDisplayPage.visit_silver_fern_display_page
     if SilverFernDisplayPage.visa_status_changed?
-      send_visa_status_changed_email(@gmail, @gmail_password, @mails)
+      send_visa_status_changed_email(@gmail, @gmail_password, @mails, @application_id)
       @status_email_sent = true
       puts "#{Time.now} SFV status changed."
     else
@@ -66,9 +66,12 @@ class SilverFern
     SilverFernSubmitPage.check_all_checkboxes
     SilverFernSubmitPage.click_submit_button
     if SilverFernSubmitPage.visa_opened?
-      send_visa_open_email(@gmail, @gmail_password, @mails) if @check
       puts "#{Time.now} SFV opened!!!"
-      sleep 3600 unless @check
+      if @check
+        send_visa_open_email(@gmail, @gmail_password, @mails, @application_id)
+        exit 0
+      end
+      sleep 3600
     else
       puts "#{Time.now} SFV not opened."
     end

@@ -10,33 +10,33 @@ module EmailNotification
               "https://onlineservices.immigration.govt.nz/secure/Login+Silver+Fern.htm\n\n" +
               "Or use the script to login and show the payment page."
 
-  def send_visa_status_changed_email
-    set_default_email_options
+  def send_visa_status_changed_email(email_address, passwrod)
+    set_default_email_options(email_address, passwrod)
 
     Mail.deliver do
-           to ARGV[3]
-         from ARGV[3]
+           to email_address
+         from email_address
       subject '[Important] Silver Fern Job Search Visa status changed'
          body STATUS_CHANGE
     end
   end
 
-  def send_visa_open_email
-    set_default_email_options
+  def send_visa_open_email(email_address, passwrod)
+    set_default_email_options(email_address, passwrod)
 
     Mail.deliver do
-           to ARGV[3]
-         from ARGV[3]
+           to email_address
+         from email_address
       subject '[Important] Silver Fern Job Search Visa opened'
          body VISA_OPEN
     end
   end
 
-  def set_default_email_options
+  def set_default_email_options(username, password)
     options = { :address              => "smtp.gmail.com",
                 :port                 => 587,
-                :user_name            => ARGV[3],
-                :password             => ARGV[4],
+                :user_name            => username,
+                :password             => password,
                 :authentication       => 'plain',
                 :enable_starttls_auto => true }
 

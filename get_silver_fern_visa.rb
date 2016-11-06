@@ -1,5 +1,6 @@
 require 'capybara/dsl'
 require 'capybara/poltergeist'
+require_relative 'opt_parser'
 require_relative 'silver_fern_pages'
 require_relative 'email_notification'
 
@@ -13,19 +14,23 @@ Capybara.default_driver = :selenium
 class SilverFern
   include EmailNotification
 
-  def initialize(username, password, application_id)
+  def initialize(username, password, application_id, gmail, gmail_password)
     @username = username
     @password = password
     @application_id = application_id
+    @gmail = gmail
+    @gmail_password = gmail_password
   end
 
   def get_sfv
     status_email_sent = false
     loop do
-      SilverFernDisplayPage.visit_silver_fern_display_page
-      if !status_email_sent  && SilverFernDisplayPage.visa_status_changed?
-        send_visa_status_changed_email
-        status_email_sent = true
+      unless status_email_sent
+        SilverFernDisplayPage.visit_silver_fern_display_page
+        if SilverFernDisplayPage.visa_status_changed?
+          send_visa_status_changed_email(@gmail, @gmail_password)
+          status_email_sent = true
+        end
       end
 
       log_in(@username, @password)
@@ -47,11 +52,13 @@ class SilverFern
     SilverFernApplicationFormPage.click_continue_button
     SilverFernSubmitPage.check_all_checkboxes
     SilverFernSubmitPage.click_submit_button
-    send_visa_open_email if SilverFernSubmitPage.visa_opened?
+    send_visa_open_email(@gmail, @gmail_password) if SilverFernSubmitPage.visa_opened?
     sleep 3600
   end
 end
 
 #get_silver = SilverFern.new(ARGV[0], ARGV[1], ARGV[2], :poltergeist)
-get_silver = SilverFern.new(ARGV[0], ARGV[1], ARGV[2])
+options = Optparser.parse(ARGV)
+get_silver = SilverFern.new(options[:username], options[:password], options[:id],
+                            options[:gmail], options[:gmail_password])
 get_silver.get_sfv

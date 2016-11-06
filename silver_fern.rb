@@ -23,6 +23,11 @@ class SilverFern
       submit_application
       sleep 10
     end
+  rescue Exception => ex
+    message = "Error during processing: #{ex.message}\n" +
+              "Backtrace:\n\t#{ex.backtrace.join("\n\t")}"
+    puts message
+    send_script_crash_email(@gmail, @gmail_password, @mails, message) if @check
   end
 
   def sign_in(username, password)
@@ -44,6 +49,7 @@ class SilverFern
         next
       end
     end
+    send_login_successful_email(@gmail, @gmail_password, @mails) if @check
   end
 
   def check_visa_status

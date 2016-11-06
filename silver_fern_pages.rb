@@ -40,7 +40,9 @@ module SilverFernLoginPage
   end
 
   def logged_in?
-    ! has_content?("Invalid", wait: 5)
+    return false unless current_url == "http://onlineservices.immigration.govt.nz/migrant/default.htm"
+    return false if has_content?("Invalid", wait: 5)
+    true
   end
 
   module_function :visit_login_page, :fill_in_username, :fill_in_password,

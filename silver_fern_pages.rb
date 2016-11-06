@@ -71,5 +71,9 @@ module SilverFernSubmitPage
     click_on("Submit")
   end
 
-  module_function :check_all_checkboxes, :click_submit_button
+  def visa_opened?
+    ! has_content?("Silver Fern Quota is Full", wait: 5)
+  end
+
+  module_function :check_all_checkboxes, :click_submit_button, :visa_opened?
 end

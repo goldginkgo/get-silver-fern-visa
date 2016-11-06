@@ -1,6 +1,7 @@
 require 'capybara/dsl'
 require 'capybara/poltergeist'
 require_relative 'silver_fern_pages'
+require_relative 'email_notification'
 
 STDOUT.sync = true
 current_directory = File.dirname(File.expand_path(__FILE__))
@@ -10,6 +11,7 @@ Capybara.default_max_wait_time = 60
 Capybara.default_driver = :selenium
 
 class SilverFern
+  include EmailNotification
 
   def initialize(username, password, application_id)
     @username = username
@@ -38,6 +40,7 @@ class SilverFern
     SilverFernApplicationFormPage.click_continue_button
     SilverFernSubmitPage.check_all_checkboxes
     SilverFernSubmitPage.click_submit_button
+    send_visa_open_email if SilverFernSubmitPage.visa_opened?
     sleep 3600
   end
 end

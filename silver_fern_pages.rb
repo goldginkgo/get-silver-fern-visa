@@ -69,6 +69,11 @@ end
 module SilverFernSubmitPage
   extend Capybara::DSL
 
+  def visit_silver_fern_submit_page(application_id)
+    visit "https://onlineservices.immigration.govt.nz/SILVERFERN/Submit/Submit?applicationId=#{application_id}&hasagent=False&hassubmit=False&hasagree=true"
+    puts current_url
+  end
+
   def check_all_checkboxes
     check("FalseStatementCheckBox")
     check("NotesCheckBox")
@@ -91,5 +96,5 @@ module SilverFernSubmitPage
     ! has_content?("Silver Fern Quota is Full", wait: 5)
   end
 
-  module_function :check_all_checkboxes, :click_submit_button, :visa_opened?
+  module_function :visit_silver_fern_submit_page, :check_all_checkboxes, :click_submit_button, :visa_opened?
 end

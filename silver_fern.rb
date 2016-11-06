@@ -29,7 +29,15 @@ class SilverFern
       break if SilverFernLoginPage.logged_in?
       sleep 5
     end
-    visit_questionnaire
+
+    loop do
+      submit_application
+      if SilverFernSubmitPage.visa_opened?
+        send_visa_open_email(@gmail, @gmail_password)
+        sleep 3600
+      end
+      sleep 10
+    end
   end
 
   def log_in(username, password)
@@ -39,12 +47,11 @@ class SilverFern
     SilverFernLoginPage.click_login_button
   end
 
-  def visit_questionnaire
-    SilverFernApplicationFormPage.visit_application_form_page(@application_id)
-    SilverFernApplicationFormPage.click_continue_button
+  def submit_application
+    # SilverFernApplicationFormPage.visit_application_form_page(@application_id)
+    # SilverFernApplicationFormPage.click_continue_button
+    SilverFernSubmitPage.visit_silver_fern_submit_page(@application_id)
     SilverFernSubmitPage.check_all_checkboxes
     SilverFernSubmitPage.click_submit_button
-    send_visa_open_email(@gmail, @gmail_password) if SilverFernSubmitPage.visa_opened?
-    sleep 3600
   end
 end

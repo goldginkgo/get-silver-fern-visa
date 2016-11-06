@@ -8,7 +8,7 @@ ENV['PATH'] += ";#{current_directory}"
 
 options = Optparser.parse(ARGV)
 
-Capybara.default_max_wait_time = 60
+Capybara.default_max_wait_time = 120
 # override the selenium driver configuration to use chrome
 Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, :browser => :chrome)

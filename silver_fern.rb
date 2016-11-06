@@ -70,7 +70,7 @@ class SilverFern
     SilverFernSubmitPage.visit_silver_fern_submit_page(@application_id)
     SilverFernSubmitPage.check_all_checkboxes
     SilverFernSubmitPage.click_submit_button
-    if SilverFernSubmitPage.visa_opened?
+    if SilverFernSubmitPage.visa_opened?(@application_id)
       puts "#{Time.now} SFV opened!!!"
       if @check
         send_visa_open_email(@gmail, @gmail_password, @mails, @application_id)

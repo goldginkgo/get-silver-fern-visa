@@ -4,12 +4,16 @@ require 'capybara/dsl'
 module SilverFernDisplayPage
   extend Capybara::DSL
 
+  DISPLAY_PAGE_URL   = "https://www.immigration.govt.nz/new-zealand-visas/apply-for-a-visa/visa-factsheet/silver-fern-job-search-work-visa"
+  ACCESS_FAILED_MSG  = "Visiting the following URL failed:\n" + DISPLAY_PAGE_URL
+
   def visit_silver_fern_display_page
-    visit "https://www.immigration.govt.nz/new-zealand-visas/apply-for-a-visa/visa-factsheet/silver-fern-job-search-work-visa"
+    visit DISPLAY_PAGE_URL
     puts "#{Time.now} visit SFV display page."
   end
 
   def visa_status_changed?
+    raise ACCESS_FAILED_MSG if current_url != DISPLAY_PAGE_URL
     ! has_content?("Applications for this visa are currently closed until further notice", wait: 5)
   end
 
@@ -20,8 +24,11 @@ end
 module SilverFernLoginPage
   extend Capybara::DSL
 
+  LOGIN_PAGE_URL = "https://www.immigration.govt.nz/secure/Login+Silver+Fern.htm"
+  MY_PAGE_URL    = "http://onlineservices.immigration.govt.nz/migrant/default.htm"
+
   def visit_login_page
-    visit "https://www.immigration.govt.nz/secure/Login+Silver+Fern.htm"
+    visit LOGIN_PAGE_URL
     puts "#{Time.now} visit SFV login page."
   end
 
@@ -40,7 +47,7 @@ module SilverFernLoginPage
   end
 
   def logged_in?
-    return false unless current_url == "http://onlineservices.immigration.govt.nz/migrant/default.htm"
+    return false unless current_url == MY_PAGE_URL
     return false if has_content?("Invalid", wait: 5)
     true
   end
@@ -53,14 +60,15 @@ end
 module SilverFernApplicationFormPage
   extend Capybara::DSL
 
+  FORM_PAGE_URL = "https://onlineservices.immigration.govt.nz/SILVERFERN/Questionnaire/Details/PersonalDetails/%s"
+
   def visit_application_form_page(application_id)
-    visit "https://onlineservices.immigration.govt.nz/SILVERFERN/Questionnaire/Details/PersonalDetails/#{application_id}"
+    visit FORM_PAGE_URL % application_id
     puts "#{Time.now} visit SFV application form page."
   end
 
   def click_continue_button
     click_on("Continue", match: :first)
-    puts current_url
   end
 
   module_function :visit_application_form_page, :click_continue_button
@@ -70,8 +78,13 @@ end
 module SilverFernSubmitPage
   extend Capybara::DSL
 
+  SUBMIT_PAGE_URL    = "https://onlineservices.immigration.govt.nz/SILVERFERN/Submit/Submit?applicationId=%s&hasagent=False&hassubmit=False&hasagree=true"
+  ACCESS_FAILED_MSG  = "Visiting the following URL failed:\n" +
+                       SUBMIT_PAGE_URL + "\n\n" +
+                       "Maybe SFV is open."
+
   def visit_silver_fern_submit_page(application_id)
-    visit "https://onlineservices.immigration.govt.nz/SILVERFERN/Submit/Submit?applicationId=#{application_id}&hasagent=False&hassubmit=False&hasagree=true"
+    visit SUBMIT_PAGE_URL % application_id
     puts "#{Time.now} visit SFV Submit page."
   end
 
@@ -93,7 +106,8 @@ module SilverFernSubmitPage
     click_on("Submit")
   end
 
-  def visa_opened?
+  def visa_opened?(application_id)
+    raise ACCESS_FAILED_MSG if current_url != SUBMIT_PAGE_URL % application_id
     ! has_content?("Silver Fern Quota is Full", wait: 5)
   end
 

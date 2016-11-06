@@ -39,13 +39,12 @@ It provides two functions:
 
 6. Execute the following command to check SFV status.
    ```
-   ruby get_silver_fern_visa.rb -u USERNAME -p PASSWORD -i APPLICATION_ID -g GMAIL_ADDRESS -d GMAIL_PASSWORD -c
+   ruby get_silver_fern_visa.rb -u USERNAME -p PASSWORD -i APPLICATION_ID -g GMAIL_ADDRESS -d GMAIL_PASSWORD -m MAIL1,MAIL2,MAIL3 -c
    ```
    Please provide your gmail address information, and emails will be sent to your gmail if SFV is opened. Make sure you turned on your mobile notification for gmail.
 
    For each option, refer to the following:
    ```
-    $ ruby get_silver_fern_visa.rb -h
     Usage: ruby get_silver_fern_visa.rb [options]
 
     Specific options:
@@ -55,6 +54,7 @@ It provides two functions:
         -i, --application-id ID          Specify Silver Fern Visa application id.
         -g, --gmail-address Name         Specify your gmail address.
         -d, --gmail-password Password    Specify your gmail password.
+        -m, --mail-address Mails         Specify your email address that will be notified. (use "," between multiple emails)
 
     Common options:
         -h, --help                       Show this message.
@@ -62,6 +62,6 @@ It provides two functions:
 
 7. Execute the following command to do the operations before payment.
    ```
-   ruby get_silver_fern_visa.rb -u USERNAME -p PASSWORD -i APPLICATION_ID -g GMAIL_ADDRESS -d GMAIL_PASSWORD
+   ruby get_silver_fern_visa.rb -u USERNAME -p PASSWORD -i APPLICATION_ID
    ```
    Perform this step if the previous step indicates SFV is open.

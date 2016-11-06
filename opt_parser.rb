@@ -39,6 +39,10 @@ class Optparser
         options[:gmail_password] = value
       end
 
+      opts.on("-m Mails", "--mail-address Mails",
+              "Specify your email address that will be notified. (use \",\" between multiple emails)") do |value|
+        options[:mails] = value
+      end
 
       opts.separator ""
       opts.separator "Common options:"

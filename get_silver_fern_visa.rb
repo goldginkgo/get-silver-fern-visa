@@ -16,5 +16,5 @@ end
 Capybara.default_driver = options[:check] ? :poltergeist : :selenium
 
 get_silver = SilverFern.new(options[:username], options[:password], options[:id],
-                            options[:gmail], options[:gmail_password], options[:check])
+                            options[:gmail], options[:gmail_password], options[:check], options[:mails])
 get_silver.get_sfv

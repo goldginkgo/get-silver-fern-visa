@@ -5,13 +5,14 @@ require_relative 'email_notification'
 class SilverFern
   include EmailNotification
 
-  def initialize(username, password, application_id, gmail, gmail_password, check)
+  def initialize(username, password, application_id, gmail, gmail_password, check, mails)
     @username = username
     @password = password
     @application_id = application_id
     @gmail = gmail
     @gmail_password = gmail_password
     @check = check
+    @mails = mails
   end
 
   def get_sfv
@@ -50,7 +51,7 @@ class SilverFern
     return if @status_email_sent
     SilverFernDisplayPage.visit_silver_fern_display_page
     if SilverFernDisplayPage.visa_status_changed?
-      send_visa_status_changed_email(@gmail, @gmail_password)
+      send_visa_status_changed_email(@gmail, @gmail_password, @mails)
       @status_email_sent = true
       puts "#{Time.now} SFV status changed."
     else
@@ -65,9 +66,9 @@ class SilverFern
     SilverFernSubmitPage.check_all_checkboxes
     SilverFernSubmitPage.click_submit_button
     if SilverFernSubmitPage.visa_opened?
-      send_visa_open_email(@gmail, @gmail_password) if @check
+      send_visa_open_email(@gmail, @gmail_password, @mails) if @check
       puts "#{Time.now} SFV opened!!!"
-      sleep 3600
+      sleep 3600 unless @check
     else
       puts "#{Time.now} SFV not opened."
     end

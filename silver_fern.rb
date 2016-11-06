@@ -16,6 +16,7 @@ class SilverFern
 
   def get_sfv
     sign_in(@username, @password)
+
     # if status changed, send just one email.
     @status_email_sent = false
     loop do
@@ -27,7 +28,10 @@ class SilverFern
     message = "Error during processing: #{ex.message}\n" +
               "Backtrace:\n\t#{ex.backtrace.join("\n\t")}"
     puts message
-    send_script_crash_email(@gmail, @gmail_password, @mails, message) if @check
+    send_script_crash_email(@gmail,
+                            @gmail_password,
+                            @mails,
+                            message) if @check
   end
 
   def sign_in(username, password)
@@ -37,6 +41,7 @@ class SilverFern
         SilverFernLoginPage.fill_in_username(username)
         SilverFernLoginPage.fill_in_password(password)
         SilverFernLoginPage.click_login_button
+
         if SilverFernLoginPage.logged_in?
           puts "#{Time.now} sign in successfully."
           break
@@ -49,14 +54,19 @@ class SilverFern
         next
       end
     end
-    send_login_successful_email(@gmail, @gmail_password, @mails) if @check
+    send_login_successful_email(@gmail,
+                                @gmail_password,
+                                @mails) if @check
   end
 
   def check_visa_status
     return if @status_email_sent
     SilverFernDisplayPage.visit_silver_fern_display_page
     if SilverFernDisplayPage.visa_status_changed?
-      send_visa_status_changed_email(@gmail, @gmail_password, @mails, @application_id)
+      send_visa_status_changed_email(@gmail,
+                                     @gmail_password,
+                                     @mails,
+                                     @application_id)
       @status_email_sent = true
       puts "#{Time.now} SFV status changed."
     else
@@ -70,10 +80,14 @@ class SilverFern
     SilverFernSubmitPage.visit_silver_fern_submit_page(@application_id)
     SilverFernSubmitPage.check_all_checkboxes
     SilverFernSubmitPage.click_submit_button
+
     if SilverFernSubmitPage.visa_opened?(@application_id)
-      puts "#{Time.now} SFV opened!!!"
+      puts "#{Time.now} SFV probably opened!!!"
       if @check
-        send_visa_open_email(@gmail, @gmail_password, @mails, @application_id)
+        send_visa_open_email(@gmail,
+                             @gmail_password,
+                             @mails,
+                             @application_id)
         exit 0
       end
       sleep 3600

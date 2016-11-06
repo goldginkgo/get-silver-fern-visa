@@ -13,7 +13,7 @@ module EmailNotification
                   "https://onlineservices.immigration.govt.nz/SILVERFERN/Submit/Submit?applicationId=%s&hasagent=False&hassubmit=False&hasagree=true\n\n" +
                   "Or use the command line tool to login and show the payment page."
 
-  VISA_OPEN = "Silver Fern Job Search Visa opened.\n\n" +
+  VISA_OPEN = "Silver Fern Job Search Visa probably opened.\n\n" +
               "Login the following URL to get the visa:\n" +
               "https://onlineservices.immigration.govt.nz/secure/Login+Silver+Fern.htm\n\n" +
               "Then submit the application with the following URL.\n" +
@@ -50,7 +50,7 @@ module EmailNotification
     Mail.deliver do
            to mails
          from email_address
-      subject '[Important] Silver Fern Job Search Visa opened'
+      subject '[Important] Silver Fern Job Search Visa probably opened'
          body VISA_OPEN % application_id
     end
   end

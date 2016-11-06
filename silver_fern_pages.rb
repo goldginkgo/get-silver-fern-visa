@@ -14,7 +14,7 @@ module SilverFernDisplayPage
 
   def visa_status_changed?
     raise ACCESS_FAILED_MSG if current_url != DISPLAY_PAGE_URL
-    ! has_content?("Applications for this visa are currently closed until further notice", wait: 5)
+    ! has_content?("Applications for this visa are currently closed until further notice", wait: 1)
   end
 
   module_function :visit_silver_fern_display_page, :visa_status_changed?
@@ -48,7 +48,7 @@ module SilverFernLoginPage
 
   def logged_in?
     return false unless current_url == MY_PAGE_URL
-    return false if has_content?("Invalid", wait: 5)
+    return false if has_content?("Invalid", wait: 1)
     true
   end
 
@@ -107,8 +107,9 @@ module SilverFernSubmitPage
   end
 
   def visa_opened?(application_id)
+    return true if has_button?("Pay Now", wait: 1)
     raise ACCESS_FAILED_MSG if current_url != SUBMIT_PAGE_URL % application_id
-    ! has_content?("Silver Fern Quota is Full", wait: 5)
+    ! has_content?("Silver Fern Quota is Full", wait: 1)
   end
 
   module_function :visit_silver_fern_submit_page, :check_all_checkboxes, :click_submit_button, :visa_opened?

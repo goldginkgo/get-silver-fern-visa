@@ -10,17 +10,18 @@ class Optparser
       opts.separator ""
       opts.separator "Specific options:"
 
-      opts.on("-c", "--check", "Check if places are available for SFV.") do |v|
+      opts.on("-c", "--check", "Check if places are available for SFV. " +
+              "No browser will be launched for this option.") do |v|
         options[:check] = true
       end
 
       opts.on("-u Name", "--username Name",
-              "Specify the username for immigration website.") do |value|
+              "Specify username for NZ immigration website.") do |value|
         options[:username] = value
       end
 
       opts.on("-p Password", "--password Password",
-              "Specify the password for immigration website.") do |value|
+              "Specify password for NZ immigration website.") do |value|
         options[:password] = value
       end
 
@@ -30,17 +31,18 @@ class Optparser
       end
 
       opts.on("-g Name", "--gmail-address Name",
-              "Specify your gmail address.") do |value|
+              "Specify your Gmail address.") do |value|
         options[:gmail] = value
       end
 
       opts.on("-d Password", "--gmail-password Password",
-              "Specify your gmail password.") do |value|
+              "Specify your Gmail password.") do |value|
         options[:gmail_password] = value
       end
 
       opts.on("-m Mails", "--mail-address Mails",
-              "Specify your email address that will be notified. (use \",\" between multiple emails)") do |value|
+              "Specify your email address that will be notified. " +
+              "(use \",\" between multiple emails)") do |value|
         options[:mails] = value
       end
 

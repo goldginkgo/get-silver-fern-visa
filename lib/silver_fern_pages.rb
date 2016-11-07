@@ -56,6 +56,26 @@ module SilverFernLoginPage
                   :click_login_button, :logged_in?
 end
 
+# Silver Fern Visa Home page
+module SilverFernHomePage
+  extend Capybara::DSL
+
+  HOME_PAGE_URL   = "https://onlineservices.immigration.govt.nz/SilverFern/"
+  ACCESS_FAILED_MSG  = "Visiting the following URL failed:\n" + HOME_PAGE_URL
+
+  def visit_silver_fern_home_page
+    visit HOME_PAGE_URL
+    puts "#{Time.now} visit SFV home page."
+    raise ACCESS_FAILED_MSG if current_url != HOME_PAGE_URL
+  end
+
+  def visa_opened?
+    ! has_content?("There are currently no places available for the Silver Fern Quota.", wait: 1)
+  end
+
+  module_function :visit_silver_fern_home_page, :visa_opened?
+end
+
 # application form page
 module SilverFernApplicationFormPage
   extend Capybara::DSL

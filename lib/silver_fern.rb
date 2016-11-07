@@ -20,7 +20,8 @@ class SilverFern
     # if status changed, send just one email.
     @status_email_sent = false
     loop do
-      check_visa_status if @check
+      check_sfv_status_on_home_page if @check
+      check_sfv_status_on_visa_intro_page if @check
       submit_application
       sleep 10
     end
@@ -59,16 +60,30 @@ class SilverFern
                                 @mails) if @check
   end
 
-  def check_visa_status
+  def check_sfv_status_on_home_page
+    SilverFernHomePage.visit_silver_fern_home_page
+    if SilverFernHomePage.visa_opened?
+      puts "#{Time.now} SFV probably opened!!!"
+      send_visa_status_changed_email(@gmail,
+                                     @gmail_password,
+                                     @mails,
+                                     @application_id)
+      exit 0
+    else
+      puts "#{Time.now} SFV not opened."
+    end
+  end
+
+  def check_sfv_status_on_visa_intro_page
     return if @status_email_sent
     SilverFernDisplayPage.visit_silver_fern_display_page
     if SilverFernDisplayPage.visa_status_changed?
+      puts "#{Time.now} SFV status changed."
       send_visa_status_changed_email(@gmail,
                                      @gmail_password,
                                      @mails,
                                      @application_id)
       @status_email_sent = true
-      puts "#{Time.now} SFV status changed."
     else
       puts "#{Time.now} SFV status not changed."
     end

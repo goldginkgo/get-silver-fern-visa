@@ -5,11 +5,10 @@ This application is used to watch and get a sporadically released SFV(Silver Fer
 
 It is useful when you have completed the Silver Fern Schema
 and payment is your only step towards SFV when places are available.
-So you must be aware of your application form id.
 
 Two functions are provided:
   - Inform the user by email if there are places available for the visa.
-  - Launch Chrome, sign in SFV website and display the payment page automatically.
+  - Launch Chrome, sign in SFV website and display the payment page automatically. (Your need to be aware of your application form id.)
 
 For command line options, refer to the following:
 ```
@@ -55,6 +54,7 @@ Common options:
    ```
 
 6. Execute the following command to check SFV status.
+   You can omit the -i option if you don't know your application id.
    ```
    ruby get_silver_fern_visa.rb -u USERNAME -p PASSWORD -i APPLICATION_ID -g GMAIL_ADDRESS -d GMAIL_PASSWORD -m MAIL1,MAIL2,MAIL3 -c
    ```

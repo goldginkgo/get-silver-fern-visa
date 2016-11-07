@@ -33,7 +33,8 @@ module EmailNotification
     end
   end
 
-  def send_visa_status_changed_email(email_address, password, mails, application_id)
+  def send_visa_status_changed_email(email_address, password, mails,
+                                     application_id="<REPLACE_APPLICATION_ID>")
     set_default_email_options(email_address, password)
 
     Mail.deliver do
@@ -44,7 +45,8 @@ module EmailNotification
     end
   end
 
-  def send_visa_open_email(email_address, password, mails, application_id)
+  def send_visa_open_email(email_address, password, mails,
+                           application_id="<REPLACE_APPLICATION_ID>")
     set_default_email_options(email_address, password)
 
     Mail.deliver do

@@ -17,13 +17,14 @@ class SilverFern
   def get_sfv
     sign_in(@username, @password)
 
-    # if status changed, send just one email.
-    @status_email_sent = false
     loop do
-      check_sfv_status_on_home_page if @check
-      check_sfv_status_on_visa_intro_page if @check
+      if @check
+        check_sfv_status_on_home_page
+        check_sfv_status_on_visa_intro_page
+      end
+
       submit_application
-      sleep 10
+      sleep 10 # interval for each retry
     end
   rescue Exception => ex
     message = "Error during processing: #{ex.message}\n" +
@@ -52,7 +53,7 @@ class SilverFern
         end
       rescue Exception => ex
         puts ex.message
-        next
+        retry
       end
     end
     send_login_successful_email(@gmail,
@@ -83,13 +84,18 @@ class SilverFern
                                      @gmail_password,
                                      @mails,
                                      @application_id)
-      @status_email_sent = true
+      exit 0
     else
       puts "#{Time.now} SFV status not changed."
     end
   end
 
   def submit_application
+    unless @application_id
+      return if @check
+      raise "Please provide your application id."
+    end
+
     # SilverFernApplicationFormPage.visit_application_form_page(@application_id)
     # SilverFernApplicationFormPage.click_continue_button
     SilverFernSubmitPage.visit_silver_fern_submit_page(@application_id)
@@ -105,7 +111,7 @@ class SilverFern
                              @application_id)
         exit 0
       end
-      sleep 3600
+      sleep 3600 # an hour for user to pay the visa
     else
       puts "#{Time.now} SFV not opened."
     end

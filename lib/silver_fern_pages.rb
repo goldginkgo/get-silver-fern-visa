@@ -106,6 +106,7 @@ module SilverFernSubmitPage
   def visit_silver_fern_submit_page(application_id)
     visit SUBMIT_PAGE_URL % application_id
     puts "#{Time.now} visit SFV Submit page."
+    raise ACCESS_FAILED_MSG if current_url != SUBMIT_PAGE_URL % application_id
   end
 
   def check_all_checkboxes

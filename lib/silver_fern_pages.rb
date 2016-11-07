@@ -8,8 +8,8 @@ module SilverFernDisplayPage
   ACCESS_FAILED_MSG  = "Visiting the following URL failed:\n" + DISPLAY_PAGE_URL
 
   def visit_silver_fern_display_page
-    visit DISPLAY_PAGE_URL
     puts "#{Time.now} visit SFV display page."
+    visit DISPLAY_PAGE_URL
   end
 
   def visa_status_changed?
@@ -28,8 +28,8 @@ module SilverFernLoginPage
   MY_PAGE_URL    = "http://onlineservices.immigration.govt.nz/migrant/default.htm"
 
   def visit_login_page
-    visit LOGIN_PAGE_URL
     puts "#{Time.now} visit SFV login page."
+    visit LOGIN_PAGE_URL
   end
 
   def fill_in_username(username)
@@ -64,8 +64,8 @@ module SilverFernHomePage
   ACCESS_FAILED_MSG  = "Visiting the following URL failed:\n" + HOME_PAGE_URL
 
   def visit_silver_fern_home_page
-    visit HOME_PAGE_URL
     puts "#{Time.now} visit SFV home page."
+    visit HOME_PAGE_URL
     raise ACCESS_FAILED_MSG if current_url != HOME_PAGE_URL
   end
 
@@ -83,8 +83,8 @@ module SilverFernApplicationFormPage
   FORM_PAGE_URL = "https://onlineservices.immigration.govt.nz/SILVERFERN/Questionnaire/Details/PersonalDetails/%s"
 
   def visit_application_form_page(application_id)
-    visit FORM_PAGE_URL % application_id
     puts "#{Time.now} visit SFV application form page."
+    visit FORM_PAGE_URL % application_id
   end
 
   def click_continue_button
@@ -104,8 +104,8 @@ module SilverFernSubmitPage
                        "Maybe SFV is open."
 
   def visit_silver_fern_submit_page(application_id)
-    visit SUBMIT_PAGE_URL % application_id
     puts "#{Time.now} visit SFV Submit page."
+    visit SUBMIT_PAGE_URL % application_id
     raise ACCESS_FAILED_MSG if current_url != SUBMIT_PAGE_URL % application_id
   end
 

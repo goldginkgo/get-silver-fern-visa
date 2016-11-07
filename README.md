@@ -1,14 +1,11 @@
 # Get SFV More Efficiently
 
 ## Introduction
-This application is used to watch and get a sporadically released SFV(Silver Fern Job Search Visa) quota.
-
-It is useful when you have completed the Silver Fern Schema
-and payment is your only step towards SFV when places are available.
+This tool is used to watch and get a sporadically released SFV(Silver Fern Job Search Visa) quota.
 
 Two functions are provided:
   - Inform the user by email if there are places available for the visa.
-  - Launch Chrome, sign in SFV website and display the payment page automatically. (Your need to be aware of your application form id.)
+  - Launch Chrome, sign in SFV website and display the payment page automatically. (It is useful when you have completed the Silver Fern Schema and payment is your only step towards SFV when places are available. So you need to be aware of your application id.)
 
 For command line options, refer to the following:
 ```
@@ -59,7 +56,7 @@ Common options:
    ruby get_silver_fern_visa.rb -u USERNAME -p PASSWORD -i APPLICATION_ID -g GMAIL_ADDRESS -d GMAIL_PASSWORD -m MAIL1,MAIL2,MAIL3 -c
    ```
    Please give your Gmail information for sending emails.
-   Emails will be sent to all email addresses you provided if SFV is reopen.
+   Emails will be sent to all email addresses provided by -m option if SFV is reopen.
    Make sure you turned on your mobile phone notification for all email applications.
 
 7. Execute the following command to launch a browser to do the operations automatically before payment.

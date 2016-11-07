@@ -27,7 +27,7 @@ class SilverFern
       submit_application
 
       break if @jump_out_of_loop
-      sleep 10 # interval for each retry
+      sleep 15 # interval for each retry
     end
   rescue Exception => ex
     message = "Error during processing: #{ex.message}\n" +
@@ -68,10 +68,10 @@ class SilverFern
     SilverFernHomePage.visit_silver_fern_home_page
     if SilverFernHomePage.visa_opened?
       puts "#{Time.now} SFV probably opened!!!"
-      send_visa_status_changed_email(@gmail,
-                                     @gmail_password,
-                                     @mails,
-                                     @application_id)
+      send_visa_open_email(@gmail,
+                           @gmail_password,
+                           @mails,
+                           @application_id)
       @jump_out_of_loop = true
     else
       puts "#{Time.now} SFV not opened."

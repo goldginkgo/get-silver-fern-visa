@@ -5,15 +5,17 @@ module SilverFernDisplayPage
   extend Capybara::DSL
 
   DISPLAY_PAGE_URL   = "https://www.immigration.govt.nz/new-zealand-visas/apply-for-a-visa/visa-factsheet/silver-fern-job-search-work-visa"
-  ACCESS_FAILED_MSG  = "Visiting the following URL failed:\n" + DISPLAY_PAGE_URL
+  ACCESS_FAILED_MSG  = "Visiting the following URL failed:\n" +
+                       DISPLAY_PAGE_URL +
+                       "\n\nIt is visiting %s"
 
   def visit_silver_fern_display_page
     puts "#{Time.now} visit SFV display page."
     visit DISPLAY_PAGE_URL
+    raise ACCESS_FAILED_MSG % current_url if current_url != DISPLAY_PAGE_URL
   end
 
   def visa_status_changed?
-    raise ACCESS_FAILED_MSG if current_url != DISPLAY_PAGE_URL
     ! has_content?("Applications for this visa are currently closed until further notice", wait: 1)
   end
 
@@ -61,12 +63,14 @@ module SilverFernHomePage
   extend Capybara::DSL
 
   HOME_PAGE_URL   = "https://onlineservices.immigration.govt.nz/SilverFern/"
-  ACCESS_FAILED_MSG  = "Visiting the following URL failed:\n" + HOME_PAGE_URL
+  ACCESS_FAILED_MSG  = "Visiting the following URL failed:\n"
+                       + HOME_PAGE_URL +
+                       "\n\nIt is visiting %s"
 
   def visit_silver_fern_home_page
     puts "#{Time.now} visit SFV home page."
     visit HOME_PAGE_URL
-    raise ACCESS_FAILED_MSG if current_url != HOME_PAGE_URL
+    raise ACCESS_FAILED_MSG % current_url if current_url != HOME_PAGE_URL
   end
 
   def visa_opened?
@@ -100,13 +104,13 @@ module SilverFernSubmitPage
 
   SUBMIT_PAGE_URL    = "https://onlineservices.immigration.govt.nz/SILVERFERN/Submit/Submit?applicationId=%s&hasagent=False&hassubmit=False&hasagree=true"
   ACCESS_FAILED_MSG  = "Visiting the following URL failed:\n" +
-                       SUBMIT_PAGE_URL + "\n\n" +
-                       "Maybe SFV is open."
+                       SUBMIT_PAGE_URL +
+                       "\n\nIt is visiting %s\n\n"
 
   def visit_silver_fern_submit_page(application_id)
     puts "#{Time.now} visit SFV Submit page."
     visit SUBMIT_PAGE_URL % application_id
-    raise ACCESS_FAILED_MSG if current_url != SUBMIT_PAGE_URL % application_id
+    raise ACCESS_FAILED_MSG % current_url if current_url != SUBMIT_PAGE_URL % application_id
   end
 
   def check_all_checkboxes

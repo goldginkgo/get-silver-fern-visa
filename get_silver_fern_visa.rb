@@ -13,6 +13,10 @@ Capybara.default_max_wait_time = 120
 Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, :browser => :chrome)
 end
+# JavaScript errors do not get re-raised in Ruby
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, js_errors: false)
+end
 Capybara.default_driver = options[:check] ? :poltergeist : :selenium
 
 get_silver = SilverFern.new(options[:username],

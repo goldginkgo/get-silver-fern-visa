@@ -17,6 +17,7 @@ class SilverFern
   def get_sfv
     sign_in(@username, @password)
 
+    @jump_out_of_loop = false
     loop do
       if @check
         check_sfv_status_on_home_page
@@ -24,6 +25,8 @@ class SilverFern
       end
 
       submit_application
+
+      break if @jump_out_of_loop
       sleep 10 # interval for each retry
     end
   rescue Exception => ex
@@ -69,7 +72,7 @@ class SilverFern
                                      @gmail_password,
                                      @mails,
                                      @application_id)
-      exit 0
+      @jump_out_of_loop = true
     else
       puts "#{Time.now} SFV not opened."
     end
@@ -84,7 +87,7 @@ class SilverFern
                                      @gmail_password,
                                      @mails,
                                      @application_id)
-      exit 0
+      @jump_out_of_loop = true
     else
       puts "#{Time.now} SFV status not changed."
     end
@@ -109,9 +112,10 @@ class SilverFern
                              @gmail_password,
                              @mails,
                              @application_id)
-        exit 0
+        @jump_out_of_loop = true
+      else
+        sleep 3600  # an hour for user to pay the visa
       end
-      sleep 3600 # an hour for user to pay the visa
     else
       puts "#{Time.now} SFV not opened."
     end

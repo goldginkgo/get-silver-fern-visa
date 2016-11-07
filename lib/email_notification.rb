@@ -8,10 +8,11 @@ module EmailNotification
              "use the command line tool to display payment page.\n\n" +
              "You can also login the following URL to get the visa:\n" +
              "https://onlineservices.immigration.govt.nz/secure/Login+Silver+Fern.htm\n\n" +
-             "Then submit the application with the following URL.\n" +
+             "Then submit the application with the following URL. (replace <REPLACE_APPLICATION_ID> if necessary)\n" +
              "https://onlineservices.immigration.govt.nz/SILVERFERN/Submit/Submit?applicationId=%s&hasagent=False&hassubmit=False&hasagree=true\n\n" +
-             "Your application form can be accessed with the following URL:" +
-             "https://onlineservices.immigration.govt.nz/SILVERFERN/Questionnaire/Details/PersonalDetails/%s"
+             "Your application form can be accessed with the following URL. (replace <REPLACE_APPLICATION_ID> if necessary)\n" +
+             "https://onlineservices.immigration.govt.nz/SILVERFERN/Questionnaire/Details/PersonalDetails/%s\n\n" +
+             "Good luck!"
 
   STATUS_CHANGE = "Silver Fern Job Search Visa status changed.\n\n" +
                   "Please visit the following URL for details:\n" +
@@ -33,8 +34,9 @@ module EmailNotification
     end
   end
 
-  def send_visa_status_changed_email(email_address, password, mails,
-                                     application_id="<REPLACE_APPLICATION_ID>")
+  def send_visa_status_changed_email(email_address, password,
+                                     mails, application_id)
+    application_id = "<REPLACE_APPLICATION_ID>" unless application_id
     set_default_email_options(email_address, password)
 
     Mail.deliver do
@@ -45,8 +47,8 @@ module EmailNotification
     end
   end
 
-  def send_visa_open_email(email_address, password, mails,
-                           application_id="<REPLACE_APPLICATION_ID>")
+  def send_visa_open_email(email_address, password, mails, application_id)
+    application_id = "<REPLACE_APPLICATION_ID>" unless application_id
     set_default_email_options(email_address, password)
 
     Mail.deliver do

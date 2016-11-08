@@ -1,18 +1,30 @@
 require 'capybara/dsl'
 
+# utility for all pages
+module PageUtils
+  VISIT_FAILED_MSG  = "Visiting the following URL failed:\n%s\n\nMessage: %s"
+
+  def visit_url(expected_url)
+    visit expected_url
+
+    wrong_url_msg = VISIT_FAILED_MSG % [expected_url, "It is visiting #{current_url}"]
+    invalid_request_msg = VISIT_FAILED_MSG % [expected_url, "The page contains Invalid Request."]
+
+    raise wrong_url_msg if current_url != expected_url
+    raise invalid_request_msg if has_content?("Invalid Request", wait: 1)
+  end
+end
+
 # Silver Fern Visa Display page
 module SilverFernDisplayPage
   extend Capybara::DSL
+  extend PageUtils
 
-  DISPLAY_PAGE_URL   = "https://www.immigration.govt.nz/new-zealand-visas/apply-for-a-visa/visa-factsheet/silver-fern-job-search-work-visa"
-  ACCESS_FAILED_MSG  = "Visiting the following URL failed:\n" +
-                       DISPLAY_PAGE_URL +
-                       "\n\nIt is visiting %s"
+  DISPLAY_PAGE_URL = "https://www.immigration.govt.nz/new-zealand-visas/apply-for-a-visa/visa-factsheet/silver-fern-job-search-work-visa"
 
   def visit_silver_fern_display_page
     puts "#{Time.now} visit SFV display page."
-    visit DISPLAY_PAGE_URL
-    raise ACCESS_FAILED_MSG % current_url if current_url != DISPLAY_PAGE_URL
+    visit_url(DISPLAY_PAGE_URL)
   end
 
   def visa_status_changed?
@@ -25,13 +37,14 @@ end
 # login page
 module SilverFernLoginPage
   extend Capybara::DSL
+  extend PageUtils
 
-  LOGIN_PAGE_URL = "https://www.immigration.govt.nz/secure/Login+Silver+Fern.htm"
+  LOGIN_PAGE_URL = "https://onlineservices.immigration.govt.nz/secure/Login+Silver+Fern.htm"
   MY_PAGE_URL    = "http://onlineservices.immigration.govt.nz/migrant/default.htm"
 
   def visit_login_page
     puts "#{Time.now} visit SFV login page."
-    visit LOGIN_PAGE_URL
+    visit_url(LOGIN_PAGE_URL)
   end
 
   def fill_in_username(username)
@@ -61,16 +74,22 @@ end
 # Silver Fern Visa Home page
 module SilverFernHomePage
   extend Capybara::DSL
+  extend PageUtils
 
-  HOME_PAGE_URL   = "https://onlineservices.immigration.govt.nz/SilverFern/"
-  ACCESS_FAILED_MSG  = "Visiting the following URL failed:\n"
-                       + HOME_PAGE_URL +
-                       "\n\nIt is visiting %s"
+  HOME_PAGE_URL = "https://onlineservices.immigration.govt.nz/SilverFern/"
 
   def visit_silver_fern_home_page
+    # fix for "Invalid request Error."
+    retry_times ||= 0
+
     puts "#{Time.now} visit SFV home page."
-    visit HOME_PAGE_URL
-    raise ACCESS_FAILED_MSG % current_url if current_url != HOME_PAGE_URL
+    visit_url(HOME_PAGE_URL)
+  rescue Exception => ex
+    save_page # save page for debug information
+    retry_times += 1
+    raise ex if retry_times > 3
+    sleep 60
+    retry
   end
 
   def visa_opened?
@@ -83,12 +102,13 @@ end
 # application form page
 module SilverFernApplicationFormPage
   extend Capybara::DSL
+  extend PageUtils
 
   FORM_PAGE_URL = "https://onlineservices.immigration.govt.nz/SILVERFERN/Questionnaire/Details/PersonalDetails/%s"
 
   def visit_application_form_page(application_id)
     puts "#{Time.now} visit SFV application form page."
-    visit FORM_PAGE_URL % application_id
+    visit_url(FORM_PAGE_URL % application_id)
   end
 
   def click_continue_button
@@ -101,16 +121,13 @@ end
 # submit page
 module SilverFernSubmitPage
   extend Capybara::DSL
+  extend PageUtils
 
-  SUBMIT_PAGE_URL    = "https://onlineservices.immigration.govt.nz/SILVERFERN/Submit/Submit?applicationId=%s&hasagent=False&hassubmit=False&hasagree=true"
-  ACCESS_FAILED_MSG  = "Visiting the following URL failed:\n" +
-                       SUBMIT_PAGE_URL +
-                       "\n\nIt is visiting %s\n\n"
+  SUBMIT_PAGE_URL = "https://onlineservices.immigration.govt.nz/SILVERFERN/Submit/Submit?applicationId=%s&hasagent=False&hassubmit=False&hasagree=true"
 
   def visit_silver_fern_submit_page(application_id)
     puts "#{Time.now} visit SFV Submit page."
-    visit SUBMIT_PAGE_URL % application_id
-    raise ACCESS_FAILED_MSG % current_url if current_url != SUBMIT_PAGE_URL % application_id
+    visit_url(SUBMIT_PAGE_URL % application_id)
   end
 
   def check_all_checkboxes

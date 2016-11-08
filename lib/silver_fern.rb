@@ -27,7 +27,7 @@ class SilverFern
       submit_application
 
       break if @jump_out_of_loop
-      sleep 15 # interval for each retry
+      sleep 20 # interval for each retry
     end
   rescue Exception => ex
     message = "Error during processing: #{ex.message}\n" +

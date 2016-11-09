@@ -1,8 +1,7 @@
 require 'mail'
 
 module EmailNotification
-  LOGIN_SUCCESS = "Logged into SFV website successfully.\n" +
-                  "The script is running well."
+  EMAIL_CHECK = "Email notification is OK.\nThe script is running well."
 
   GET_VISA = "Please make sure your credit card is available and " +
              "use the command line tool to display payment page.\n\n" +
@@ -23,14 +22,14 @@ module EmailNotification
 
   SCRIPT_CRASHED = "The execution of SFV script crashed.\n\n%s"
 
-  def send_login_successful_email(email_address, password, mails)
-    set_default_email_options(email_address, password)
+  def send_email_notification_check_email(email_address, password, mails)
+   set_default_email_options(email_address, password)
 
     Mail.deliver do
            to mails
          from email_address
-      subject 'Logged into SFV website successfully'
-         body LOGIN_SUCCESS
+      subject 'Check email notification for SFV script'
+         body EMAIL_CHECK
     end
   end
 

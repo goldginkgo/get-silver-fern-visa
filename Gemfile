@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
 gem 'capybara'
-gem 'selenum-webdriver'
+gem 'selenium-webdriver'
 gem 'poltergeist'
 gem 'mail'

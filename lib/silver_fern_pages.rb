@@ -15,7 +15,7 @@ module PageUtils
     invalid_request_msg = VISIT_FAILED_MSG % [expected_url, "The page contains Invalid Request."]
 
     raise wrong_url_msg if current_url != expected_url
-    raise invalid_request_msg if has_content?("Invalid Request", wait: 1)
+    raise invalid_request_msg unless has_no_content?("Invalid Request", wait: 3)
   end
 
   def save_page_content
@@ -37,7 +37,7 @@ module SilverFernDisplayPage
   end
 
   def visa_status_changed?
-    ! has_content?("Applications for this visa are currently closed until further notice", wait: 1)
+    ! has_content?("Applications for this visa are currently closed until further notice", wait: 3)
   end
 end
 
@@ -71,7 +71,7 @@ module SilverFernLoginPage
 
   def logged_in?
     return false unless current_url == MY_PAGE_URL
-    return false if has_content?("Invalid", wait: 1)
+    return false unless has_no_content?("Invalid", wait: 3)
     true
   end
 end
@@ -90,7 +90,7 @@ module SilverFernHomePage
   end
 
   def visa_opened?
-    ! has_content?("There are currently no places available for the Silver Fern Quota.", wait: 1)
+    ! has_content?("There are currently no places available for the Silver Fern Quota.", wait: 3)
   end
 end
 
@@ -144,8 +144,8 @@ module SilverFernSubmitPage
   end
 
   def visa_opened?(application_id)
-    return true if has_button?("Pay Now", wait: 1)
+    return true unless has_no_button?("Pay Now", wait: 3)
     raise ACCESS_FAILED_MSG if current_url != SUBMIT_PAGE_URL % application_id
-    ! has_content?("Silver Fern Quota is Full", wait: 1)
+    ! has_content?("Silver Fern Quota is Full", wait: 3)
   end
 end

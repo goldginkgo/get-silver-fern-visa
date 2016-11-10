@@ -36,17 +36,17 @@ class SilverFern
   def check_available_visa
     @continue_execution = true
     loop do
-      retry_when_error(5, 60) do
+      retry_when_error(5, 20) do
+        check_sfv_status_on_visa_intro_page
+      end
+
+      retry_when_error(15, 60) do
         sign_in(@username, @password)
         check_sfv_status_on_home_page
       end
 
-      retry_when_error(3, 20) do
-        check_sfv_status_on_visa_intro_page
-      end
-
       break unless @continue_execution
-      sleep 20 # interval for each check
+      sleep 30 # interval for each check
       puts "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
     end
   end
@@ -107,7 +107,6 @@ class SilverFern
   end
 
   def check_sfv_status_on_visa_intro_page
-    return if @status_email_sent
     SilverFernDisplayPage.visit_silver_fern_display_page
     if SilverFernDisplayPage.visa_status_changed?
       puts "#{Time.now} SFV status changed!!!"

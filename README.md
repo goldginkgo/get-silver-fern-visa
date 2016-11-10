@@ -29,9 +29,9 @@ Common options:
 1. Install Ruby and Chrome.
 
 2. Clone the repository.
-  ```
-  git clone https://github.com/goldginkgo/get-silver-fern-visa.git
-  ```
+   ```
+   git clone https://github.com/goldginkgo/get-silver-fern-visa.git
+   ```
 
 3. Download the latest chromedriver from the following URL, extract the folder,
    and put chromedriver in the get-silver-fern-visa folder.
@@ -47,6 +47,7 @@ Common options:
 
 5. Install required gems.
    ```
+   gem install bundler
    cd get-silver-fern-visa
    bundle install
    ```
